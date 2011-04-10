@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+   $Revision: 151 $
+   $LastChangedBy: pgleeson $ 
+   $Date: 2008-10-07 14:13:37 +0100 (Tue, 07 Oct 2008) $ 
+   $HeadURL: https://neuroml.svn.sourceforge.net/svnroot/neuroml/tempModels/neuroConstruct/Ex7_GranuleCell/cellMechanisms/Gran_KA_98/KA_Chan.xml $
+            
+-->
+
+<channelml xmlns="http://morphml.org/channelml/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:meta="http://morphml.org/metadata/schema" xsi:schemaLocation="http://morphml.org/channelml/schema  ../../../../../trunk/web/NeuroMLFiles/Schemata/v1.7.3/Level2/ChannelML_v1.7.3.xsd" units="Physiological Units">
+
+	<meta:notes>voltage-gated K channel</meta:notes>
+    
+    <channel_type name="Kv1_CML">
+        
+	<status value="stable">
+		    <meta:contributor>
+			    <meta:name>Matteo Farinella</meta:name>
+		    </meta:contributor>
+        </status>
+	
+	
+	<meta:notes>Channel translated from the original .mod file used in Kole MH, Ilschner SU, Kampa BM, Williams SR, Ruben PC, Stuart GJ, Action potential generation requires a high sodium channel density in the axon initial segment. Nat Neurosci. 2008 Feb;11(2):178-86. Kinetic data taken from: Zerr et al., J.Neurosci. 18 (1998) 2842</meta:notes>
+    
+	
+	<meta:authorList>
+		<meta:modelAuthor>
+			<meta:name>Akemann and Knoepfel</meta:name>
+			<meta:institution>RIKEN Brain Science Institute</meta:institution>    
+		</meta:modelAuthor>
+		<meta:modelTranslator>
+			<meta:name>Padraig Gleeson</meta:name>
+			<meta:institution>UCL</meta:institution>    
+			<meta:email>p.gleeson - at - ucl.ac.uk</meta:email>
+		</meta:modelTranslator>
+		<meta:modelTranslator>
+			<meta:name>Matteo Farinella</meta:name>
+			<meta:institution>UCL</meta:institution>    
+			<meta:email>m.farinella - at - ucl.ac.uk</meta:email>
+		</meta:modelTranslator>
+	</meta:authorList>
+        
+        
+	<meta:publication>
+		<meta:fullTitle>MRothman JS, Cathala L, Steuber V, Silver RA, Synaptic depression enables neuronal gain control. Nature. 2009 Jan 14
+		</meta:fullTitle>
+		<meta:pubmedRef>http://www.ncbi.nlm.nih.gov/pubmed/19145233?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum</meta:pubmedRef>
+	</meta:publication>     
+	
+	<meta:neuronDBref>
+		<meta:modelName>K channels</meta:modelName>
+		<meta:uri>http://senselab.med.yale.edu/senselab/NeuronDB/channelGene2.htm#table3</meta:uri>
+	</meta:neuronDBref>
+	
+        
+        <current_voltage_relation cond_law="ohmic" ion="k" default_gmax="2.0E3" default_erev="-85">
+            
+            <q10_settings q10_factor="3" experimental_temp="22"/>
+            
+            
+            <gate name="n" instances="4">
+            
+                <closed_state id="n0"/>
+                <open_state id="n"/>
+                
+                <!--
+		Original parameters and equations:
+		
+                ca = 0.10 (1/ms) : 0.12889 as original
+		cva = 50 (mV)
+		cka = -33.90877 (mV)
+
+		cb = 0.12889 (1/ms)
+	    	cvb = 50 (mV)
+		ckb = 7.42101 (mV)
+	
+		alphanfkt = ca * exp(-(v+cva)/cka) 
+		betanfkt = cb * exp(-(v+cvb)/ckb)
+               
+                -->
+                     
+                <transition name="alpha" from="n0" to="n" expr_form="exponential"
+                            rate="0.10" scale="33.90877" midpoint="-50" />
+                            
+                <transition name="beta" from="n" to="n0" expr_form="exponential"
+                            rate="0.12889" scale="-7.42101" midpoint="-50" />
+                    
+            </gate>
+        
+        </current_voltage_relation> 
+        
+        
+    </channel_type>
+</channelml>

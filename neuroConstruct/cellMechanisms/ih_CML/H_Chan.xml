@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channelml xmlns="http://morphml.org/channelml/schema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:meta="http://morphml.org/metadata/schema" 
+    xsi:schemaLocation="http://morphml.org/channelml/schema  http://www.neuroml.org/NeuroMLValidator/NeuroMLFiles/Schemata/v1.8.0/Level2/ChannelML_v1.8.0.xsd"
+    units="Physiological Units">
+
+	<meta:notes>Anomalous inward rectifying H conductance</meta:notes>
+
+    <channel_type name="ih_CML">
+      
+        <status value="stable">
+            <meta:contributor>
+                <meta:name>Matteo Farinella</meta:name>
+            </meta:contributor>
+        </status>
+
+        <meta:notes>Channel translated from the original .mod file used in Kole MH, Ilschner SU, Kampa BM, Williams SR, Ruben PC, Stuart GJ, Action potential generation requires a high sodium channel density in the axon initial segment. Nat Neurosci. 2008 Feb;11(2):178-86.
+            Predominantly HCN1 / HCN2</meta:notes>
+
+
+        <meta:authorList>
+            <meta:modelAuthor>
+                <meta:name>Stefan Hallermann</meta:name>
+            </meta:modelAuthor>
+            <meta:modelTranslator>
+                <meta:name>Padraig Gleeson</meta:name>
+                <meta:institution>UCL</meta:institution>
+                <meta:email>p.gleeson - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+            <meta:modelTranslator>
+                <meta:name>Matteo Farinella</meta:name>
+                <meta:institution>UCL</meta:institution>
+                <meta:email>m.farinella - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+        </meta:authorList>
+
+
+
+        <meta:publication>
+            <meta:fullTitle>Rothman JS, Cathala L, Steuber V, Silver RA, Synaptic depression enables neuronal gain control. Nature. 2009 Jan 14</meta:fullTitle>
+            <meta:pubmedRef>http://www.ncbi.nlm.nih.gov/pubmed/19145233?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum</meta:pubmedRef>
+        </meta:publication>     
+        
+        <current_voltage_relation cond_law="ohmic" ion="qq" default_gmax="0.30905062" default_erev="-45">
+            
+            <!--
+            Original equations:
+
+            alpha = 0.001*6.43*(v+154.9)/(exp((v+154.9)/11.9)-1)
+            beta = 0.001*193*exp(v/33.1)	
+            
+            -->           
+            
+
+            <gate name="n" instances="1">
+                <closed_state id="n0"/>
+                <open_state id="n"/>
+                     
+                <transition name="alpha" from="n0" to="n" expr_form="exp_linear" rate="0.076517" scale="-11.9" midpoint="-154.9"/>
+                <transition name="beta" from="n" to="n0" expr_form="exponential" rate="0.193" scale="33.1" midpoint="0"/>
+
+            </gate>
+            
+        </current_voltage_relation>      
+
+    </channel_type>
+</channelml>
+

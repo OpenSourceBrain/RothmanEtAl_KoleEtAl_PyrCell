@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channelml xmlns="http://morphml.org/channelml/schema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:meta="http://morphml.org/metadata/schema"
+    xsi:schemaLocation="http://morphml.org/channelml/schema  http://www.neuroml.org/NeuroMLValidator/NeuroMLFiles/Schemata/v1.8.0/Level2/ChannelML_v1.8.0.xsd"
+    units="Physiological Units">
+        
+	<meta:notes>Voltage-gated Na channel</meta:notes>
+
+
+    <channel_type name="nax_CML" density="yes">
+
+        <status value="in_progress">
+            <meta:issue>Attribute scale_max_cond in q10_settings needs to be included formally in specification amd supported on GENESIS</meta:issue>
+		    <meta:contributor>
+			    <meta:name>Matteo Farinella</meta:name>
+		    </meta:contributor>
+        </status>
+	
+	
+        <meta:notes>Channel translated from the original .mod file used in Kole MH, Ilschner SU, Kampa BM, Williams SR, Ruben PC, Stuart GJ, Action potential generation requires a high sodium channel density in the axon initial segment. Nat Neurosci. 2008 Feb;11(2):178-86. 
+        Kinetics were fit to data from Huguenard et al. (1988) and Hamill et al. (1991). Notes taken from orig mod file:
+        
+        qi is not well constrained by the data, since there are no points between -80 and -55.  So this was fixed at 5 while the thi1,thi2,Rg,Rd were optimized using a simplex least square proc
+
+        voltage dependencies are shifted approximately from the best fit to give higher threshold
+
+        May 2006, set thinf = -59 mV, tha  = -35 and vshift = 0 to account for AIS Na channel kinetics Kole, ANU, 2006</meta:notes>
+	        
+	                
+        <meta:authorList>
+            <meta:modelAuthor>
+                <meta:name>Zach Mainen</meta:name>
+                <meta:institution>Salk Institute</meta:institution>
+            </meta:modelAuthor>
+            <meta:modelTranslator>
+                <meta:name>Padraig Gleeson</meta:name>
+                <meta:institution>UCL</meta:institution>    
+                <meta:email>p.gleeson - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+            <meta:modelTranslator>
+                <meta:name>Matteo Farinella</meta:name>
+                <meta:institution>UCL</meta:institution>    
+                <meta:email>m.farinella - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+        </meta:authorList>
+        
+
+        <meta:publication>
+            <meta:fullTitle>Rothman JS, Cathala L, Steuber V, Silver RA, Synaptic depression enables neuronal gain control. Nature. 2009 Jan 14
+            </meta:fullTitle>
+            <meta:pubmedRef>http://www.ncbi.nlm.nih.gov/pubmed/19145233?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum</meta:pubmedRef>
+        </meta:publication>
+
+        <meta:neuronDBref>
+            <meta:modelName>Na channels</meta:modelName>
+            <meta:uri>http://senselab.med.yale.edu/senselab/NeuronDB/channelGene2.htm#table2</meta:uri>
+        </meta:neuronDBref>
+
+        <current_voltage_relation cond_law="ohmic" ion="na" default_erev="55" default_gmax="2.5">
+		
+            <q10_settings q10_factor="2.3" experimental_temp="23" scale_max_cond="true"/>
+
+            <offset value="-10"/>
+
+            <gate name="m" instances="3">
+                <closed_state id="m0"/>
+                <open_state id="m"/>
+
+                <!--
+                Original parameters and equations:
+
+                tha  = -35	(mV)		: v 1/2 for act		(-42)
+                qa   = 9	(mV)		: act slope
+                Ra   = 0.182	(/ms)		: open (v)
+                Rb   = 0.124	(/ms)		: close (v)
+
+                thi1  = -50	(mV)		: v 1/2 for inact
+                thi2  = -75	(mV)		: v 1/2 for inact
+                qi   = 5	(mV)	        : inact tau slope
+                thinf  = -59	(mV)		: inact inf slope
+                qinf  = 6.2	(mV)		: inact inf slope
+                Rg   = 0.0091	(/ms)		: inact (v)
+                Rd   = 0.024	(/ms)		: inact recov (v)
+
+                temp = 23	(degC)		: original temp
+
+                a = trap0(vm,tha,Ra,qa)
+                b = trap0(-vm,-tha,Rb,qa)
+
+                with trap0(v,th,a,q):
+
+                trap0 = a * (v - th) / (1 - exp(-(v - th)/q))
+
+                -->
+
+                <transition name="alpha" from="m0" to="m" expr_form="exp_linear" rate="1.638" scale="9" midpoint="-35" />
+
+                <transition name="beta" from="m" to="m0" expr_form="exp_linear" rate="1.116" scale="-9" midpoint="-35" />
+
+            </gate>
+            <gate name="h" instances="1">
+                <closed_state id="h0"/>
+                <open_state id="h"/>
+
+                <!--
+                a = trap0(vm,thi1,Rd,qi)
+                b = trap0(-vm,-thi2,Rg,qi)
+                -->
+
+                <transition name="alpha" from="h0" to="h" expr_form="exp_linear" rate="0.12" scale="5" midpoint="-50" />
+
+                <transition name="beta" from="h" to="h0" expr_form="exp_linear" rate="0.0455" scale="-5" midpoint="-75" />
+
+                <steady_state name="inf" from="h0" to="h" expr_form="generic" expr = "1/(1+(exp ((v+59)/6.2)))"/>
+
+            </gate>
+        </current_voltage_relation>
+
+        <impl_prefs>
+            <table_settings max_v="100" min_v="-120" table_divisions="199"/>
+        </impl_prefs>
+        
+    </channel_type>
+
+</channelml>
+

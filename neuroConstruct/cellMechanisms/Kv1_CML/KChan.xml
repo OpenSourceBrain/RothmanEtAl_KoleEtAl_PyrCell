@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channelml xmlns="http://morphml.org/channelml/schema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:meta="http://morphml.org/metadata/schema" 
+    xsi:schemaLocation="http://morphml.org/channelml/schema  http://www.neuroml.org/NeuroMLValidator/NeuroMLFiles/Schemata/v1.8.0/Level2/ChannelML_v1.8.0.xsd"
+    units="Physiological Units">
+
+    <meta:notes>Potassium channel from Kv1.1 subunits</meta:notes>
+    
+    <channel_type name="Kv1_CML">
+        
+        <status value="in_progress">
+            <meta:issue>Attribute scale_max_cond in q10_settings needs to be included formally in specification amd supported on GENESIS</meta:issue>
+            <meta:contributor>
+                <meta:name>Matteo Farinella</meta:name>
+            </meta:contributor>
+        </status>
+        
+        <meta:notes>Potassium channel from Kv1.1 subunits. Notes from original mod file:
+        Kinetic data taken from: Zerr et al., J.Neurosci. 18 (1998) 2842
+        Reference: Akemann and Knoepfel, J.Neurosci. 26 (2006) 4602
+        Date of Implementation: April 2005
+        Contact: akemann@brain.riken.jp</meta:notes>
+    
+        <meta:authorList>
+            <meta:modelTranslator>
+                <meta:name>Padraig Gleeson</meta:name>
+                <meta:institution>UCL</meta:institution>    
+                <meta:email>p.gleeson - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+            <meta:modelTranslator>
+                <meta:name>Matteo Farinella</meta:name>
+                <meta:institution>UCL</meta:institution>    
+                <meta:email>m.farinella - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+        </meta:authorList>
+        
+
+        <meta:publication>
+            <meta:fullTitle>Rothman JS, Cathala L, Steuber V, Silver RA, Synaptic depression enables neuronal gain control. Nature. 2009 Jan 14</meta:fullTitle>
+            <meta:pubmedRef>http://www.ncbi.nlm.nih.gov/pubmed/19145233?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum</meta:pubmedRef>
+            </meta:publication>     
+
+
+        <meta:neuronDBref>
+            <meta:modelName>K channels</meta:modelName>
+            <meta:uri>http://senselab.med.yale.edu/senselab/NeuronDB/channelGene2.htm#table3</meta:uri>
+        </meta:neuronDBref>
+
+
+        
+        <current_voltage_relation cond_law="ohmic" ion="k" default_gmax="1.14567" default_erev="-85">
+            
+            <q10_settings q10_factor="3" experimental_temp="23" scale_max_cond="true"/>
+            
+            
+            <gate name="n" instances="4">
+            
+                <closed_state id="n0"/>
+                <open_state id="n"/>
+                
+                <!--
+                
+                ca = 0.10 (1/ms) : 0.12889 as original
+                cva = 50 (mV)
+                cka = -33.90877 (mV)
+
+                cb = 0.12889 (1/ms)
+                    cvb = 50 (mV)
+                ckb = 7.42101 (mV)
+
+                alphanfkt = ca * exp(-(v+cva)/cka)
+                betanfkt = cb * exp(-(v+cvb)/ckb)
+
+               
+                alfa = A * exp((v-V1/2)/B)   (exponential)
+                
+                -->
+                     
+                <transition name="alpha" from="n0" to="n" expr_form="exponential"
+                            rate="33.90877" scale="0.10" midpoint="-100" />
+                            
+                <transition name="beta" from="n" to="n0" expr_form="exponential"
+                            rate="-7.42101" scale="-0.12889" midpoint="-100" />
+
+                    
+            </gate>
+        
+        </current_voltage_relation> 
+        
+    </channel_type>
+</channelml>
