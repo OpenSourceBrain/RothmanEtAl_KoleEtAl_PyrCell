@@ -68,7 +68,8 @@ def testAll(argv=None):
                                runInBackground=runInBackground)
 
 
-    simManager.reloadSims(plotVoltageOnly=plotVoltageOnly)
+    simManager.reloadSims(plotVoltageOnly=plotVoltageOnly,
+                          plotSims =          plotSims)
 
     # These were discovered using analyseSims = True above.
     # They need to hold for all simulators
