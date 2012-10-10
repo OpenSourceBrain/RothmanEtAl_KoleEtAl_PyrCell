@@ -1,4 +1,5 @@
-A project which was used in Rothman et al. "Synaptic depression enables neuronal gain control" Nature 2009 
-to demonstrate gain control in realistic cell models. Based on cell model from Kole et al. 2008.
+A project which was used in Rothman et al. "Synaptic depression enables neuronal 
+gain control" Nature 2009 to demonstrate gain control in realistic cell models. 
+Based on cell model from Kole et al. 2008.
 
 For more details see http://www.opensourcebrain.org/projects/rothmanetalkoleetalpyrcell
