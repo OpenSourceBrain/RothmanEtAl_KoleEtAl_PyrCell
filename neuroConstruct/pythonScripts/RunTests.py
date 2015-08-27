@@ -37,6 +37,7 @@ simDt =                 0.002
 
 #simulators =            ["NEURON"]
 simulators =            ["NEURON", "GENESIS_PHYS", "GENESIS_SI", "MOOSE_PHYS", "MOOSE_SI"]
+simulators =            ["NEURON", "GENESIS_PHYS", "GENESIS_SI"]
 
 numConcurrentSims =     4
 
